@@ -1,0 +1,24 @@
+---
+title: T1078.002 - Valid Accounts Domain Accounts
+id: 47c3d306-99cd-11ee-984b-080027990900
+status: test
+description: Connection to the LDAP server
+references:
+  - https://attack.mitre.org/techniques/T1078/002/'
+author: <>
+date: 2023/12/13
+modified: 2023/12/13
+mitre: T1078/002
+tags:
+  - attack.T1078/002
+families: MITRE
+logsource:
+  product: linux
+detection:
+  selection:
+    RemotePort: 389
+  condition: selection
+  events:
+    - network_connection_established
+falsepositives: Unknown
+level: 0

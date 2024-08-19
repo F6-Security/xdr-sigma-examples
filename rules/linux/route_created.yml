@@ -1,0 +1,22 @@
+---
+title: Network route created
+id: d7d5b237-da8b-445d-809f-28d0e8e02555
+status: test
+description: Network route created
+author: <>
+date: 2023/12/13
+modified: 2023/12/13
+logsource:
+  product: linux
+detection:
+  - condition: selection and not selection_wl
+    events:
+      - process_exec
+    selection:
+      CommandLine|contains:
+        - route add
+    selection_wl:
+      Image|endswith:
+        - bin/openvpn
+falsepositives: Unknown
+level: 100

@@ -1,0 +1,34 @@
+---
+title: Process injection via ld_preload
+id: f73d9a2e-9d79-4766-aaf6-7a3ba383c9ba
+status: test
+description: LD_PRELOAD allows the loading of dynamic libraries at process startup
+  which be used for process injection
+author: <>
+date: 2023/12/13
+modified: 2023/12/13
+logsource:
+  product: linux
+detection:
+  - selection_env:
+      Environment|contains: LD_PRELOAD=
+    selection_wl_firefox:
+      Image|endswith: /firefox
+      Environment|match:
+        - .*LD_PRELOAD=libmozsandbox\.so.*
+    selection_wl_paths:
+      Environment|match:
+        - .*LD_PRELOAD=/usr/lib/Acronis/BackupAndRecovery/Common/libtcmalloc\.so.*
+        - .*LD_PRELOAD=snap/.*/bindtextdomain\.so.*
+        - .*LD_PRELOAD=/opt/gitlab/embedded/lib/libjemalloc\.so.*
+    condition: selection_env and not selection_wl_paths and not selection_wl_firefox
+    events:
+      - process_exec
+  - selection_ld_preload_path:
+      TargetFilename|endswith: /etc/ld.so.preload
+    events:
+      - file_write
+      - file_rename
+    condition: selection_ld_preload_path
+falsepositives: unknown
+level: 100

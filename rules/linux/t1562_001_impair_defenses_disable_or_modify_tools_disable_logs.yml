@@ -1,0 +1,50 @@
+---
+title: Impair Defenses Disable or Modify Tools - Stop Logging
+id: 43a0b640-99cd-11ee-984b-080027990900
+status: test
+description: Adversaries may disable security tools to avoid possible detection of
+  their tools and activities. This can take the form of killing security software
+  or event logging processes, deleting Registry keys so that tools do not start at
+  run time, or other methods to interfere with security tools scanning or reporting
+  information.
+author: <>
+date: 2023/12/13
+modified: 2023/12/13
+mitre: T1562/001
+tags:
+  - attack.T1562/001
+families: MITRE
+logsource:
+  product: linux
+detection:
+  - selection_img:
+      Image|endswith: systemctl
+    selection_cmdline:
+      CommandLine|contains:
+        - stop rsyslog
+        - disable rsyslog
+        - stop auditd
+        - stop disable auditd
+    condition: selection_img and selection_cmdline
+    events:
+      - process_exec
+  - selection_1:
+      Image|contains: service
+    selection_2:
+      CommandLine|contains:
+        - rsyslog stop
+        - auditd stop
+    condition: selection_1 and selection_2
+    events:
+      - process_exec
+  - selection_1:
+      Image|contains: chkconfig
+    selection_2:
+      CommandLine|contains:
+        - off rsyslog
+        - off auditd
+    condition: selection_1 and selection_2
+    events:
+      - process_exec
+falsepositives: Unknown
+level: 30

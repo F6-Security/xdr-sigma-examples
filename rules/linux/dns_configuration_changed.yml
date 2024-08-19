@@ -1,0 +1,40 @@
+---
+title: DNS configuration changed
+id: 9b8af09d-3122-4d05-aede-e5b1fc1600e5
+status: test
+description: Detects changes to DNS configuration files
+author: <>
+date: 2024/06/08
+modified: 2024/06/08
+mitre: T1583/002
+tags:
+  - attack.T1583.002
+logsource:
+  product: linux
+detection:
+  - selection_dns_conf_files:
+      TargetFilename|endswith:
+        - resolv.conf
+        - resolved.conf
+        - resolvconf.conf
+        - dnsmasq.conf
+    selection_bind_conf_files:
+      TargetFilename|startswith:
+        - /etc/bind/named.conf
+    selection_wl_files:
+      TargetFilename|contains:
+        - containerd
+        - docker
+        - child-roots
+    selection_wl_processes:
+      HeaderProcessImage|endswith:
+        - /bin/buildah
+        - /bin/dockerd
+        - /bin/podman
+    events:
+      - file_write
+    condition: (selection_dns_conf_files or selection_bind_conf_files) and not (selection_wl_files
+      or selection_wl_processes)
+falsepositives:
+  - Unknown
+level: 100

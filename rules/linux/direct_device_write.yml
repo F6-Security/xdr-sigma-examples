@@ -1,0 +1,18 @@
+---
+title: Direct write to device using dd
+id: 8563a53e-d200-4f37-b958-2c3a648654cf
+status: test
+description: Direct write to device
+author: <>
+date: 2023/12/13
+modified: 2023/12/13
+logsource:
+  product: linux
+detection:
+  - condition: selection
+    events: process_exec
+    selection:
+      Image|endswith: /dd
+      CommandLine|contains: of=/dev/
+falsepositives: Unknown
+level: 100

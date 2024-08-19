@@ -1,0 +1,22 @@
+---
+title: Network interface created
+id: d7d5b237-da8b-445d-809f-28d0e8e02555
+status: test
+description: Detects creation of interfaces via network utilities
+author: <>
+date: 2023/12/13
+modified: 2023/12/13
+logsource:
+  product: linux
+detection:
+  - condition: selection
+    events:
+      - process_exec
+    selection:
+      CommandLine|contains:
+        - ip link add
+        - nmcli con add
+        - brctl addif
+        - virsh attach-interface
+falsepositives: Unknown
+level: 100
