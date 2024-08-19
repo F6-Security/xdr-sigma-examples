@@ -1,0 +1,18 @@
+title: Uses Microsoft Defender features to download files
+id: 521eab04-bcac-464f-b923-034a8d9bffbf
+author: Aleksandr Zherdev <a.zherdev@group-ib.com>
+date: 2022-12-03
+modified: 2023-04-13
+mitre: T1105
+logsource:
+    events: process_created
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\mpcmdrun.exe'
+        CommandLine|contains|all:
+            - 'downloadfile'
+            - 'url'
+    condition: selection
+level: 16

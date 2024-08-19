@@ -1,0 +1,31 @@
+title: BeastDoor indicators detected
+id: 97755282-ce0c-4557-977e-4967a6212662
+author: Andrey Kononov <kononov@group-ib.com>
+date: 2019-11-07
+modified: 2023-04-11
+families: beastdoor
+logsource:
+    product: windows
+detection:
+    - selection:
+          Path|match:
+            - 'dxdgns'
+            - 'mspgcs'
+            - 'msdqwn'
+      condition: selection
+      events:
+        - file_created
+        - file_written
+
+    - selection:
+          Key|match:
+            - 'mspgcs'
+      condition: selection
+      events: reg_key_written
+
+    - selection:
+          Name|match:
+            - 'Bst_run'
+      condition: selection
+      events: mutex_created
+level: 4

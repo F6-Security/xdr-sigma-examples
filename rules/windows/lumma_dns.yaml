@@ -1,0 +1,37 @@
+title: Lumma domain was resolved
+id: f4df9473-3a39-4b13-bf73-892cacbe97e0
+author: chekhov@group-ib.com
+date: 2024-07-04
+modified: 2024-07-04
+mitre: T1568/002
+logsource:
+  product: windows
+detection:
+  - selection:
+      QueryName|endswith_cl:
+        - 'acceptabledcooeprs.shop'
+        - 'boredimperissvieos.shop'
+        - 'holicisticscrarws.shop'
+        - 'miniaturefinerninewjs.shop'
+        - 'obsceneclassyjuwks.shop'
+        - 'plaintediousidowsko.shop'
+        - 'sweetsquarediaslw.shop'
+        - 'whispedwoodmoodsksl.shop'
+        - 'zippyfinickysofwps.shop'
+      FindProcessByEvent|invoke_utils|not: check_if_browser
+    events: domain_resolved_etw
+    condition: selection
+  - selection:
+      Record.Name|endswith_cl:
+        - 'acceptabledcooeprs.shop'
+        - 'boredimperissvieos.shop'
+        - 'holicisticscrarws.shop'
+        - 'miniaturefinerninewjs.shop'
+        - 'obsceneclassyjuwks.shop'
+        - 'plaintediousidowsko.shop'
+        - 'sweetsquarediaslw.shop'
+        - 'whispedwoodmoodsksl.shop'
+        - 'zippyfinickysofwps.shop'
+    events: domain_resolved
+    condition: selection
+level: 0
